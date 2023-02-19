@@ -1,0 +1,5 @@
+ksp-klient.py
+*.out
+*.aux
+*.log
+*.in
