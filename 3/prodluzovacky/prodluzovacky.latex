@@ -1,0 +1,99 @@
+\documentclass{fkssolpub}
+
+\usepackage[czech]{babel}
+\usepackage{fontspec}
+\usepackage{fkssugar}
+
+% Čmajznuto z https://tex.stackexchange.com/questions/536081/unicode-characters-misplaced-within-lstlistings-environment
+% \makeatletter
+% \lst@InputCatcodes
+% \def\lst@DefEC{%
+%  \lst@CCECUse \lst@ProcessLetter
+%   ^^80^^81^^82^^83^^84^^85^^86^^87^^88^^89^^8a^^8b^^8c^^8d^^8e^^8f%
+%   ^^90^^91^^92^^93^^94^^95^^96^^97^^98^^99^^9a^^9b^^9c^^9d^^9e^^9f%
+%   ^^a0^^a1^^a2^^a3^^a4^^a5^^a6^^a7^^a8^^a9^^aa^^ab^^ac^^ad^^ae^^af%
+%   ^^b0^^b1^^b2^^b3^^b4^^b5^^b6^^b7^^b8^^b9^^ba^^bb^^bc^^bd^^be^^bf%
+%   ^^c0^^c1^^c2^^c3^^c4^^c5^^c6^^c7^^c8^^c9^^ca^^cb^^cc^^cd^^ce^^cf%
+%   ^^d0^^d1^^d2^^d3^^d4^^d5^^d6^^d7^^d8^^d9^^da^^db^^dc^^dd^^de^^df%
+%   ^^e0^^e1^^e2^^e3^^e4^^e5^^e6^^e7^^e8^^e9^^ea^^eb^^ec^^ed^^ee^^ef%
+%   ^^f0^^f1^^f2^^f3^^f4^^f5^^f6^^f7^^f8^^f9^^fa^^fb^^fc^^fd^^fe^^ff%
+%   ^^^^03b6% <--- for ζ
+%   ^^00}
+% \lst@RestoreCatcodes
+% \makeatother
+
+\usepackage{listings}
+\lstset{
+  basicstyle=\ttfamily,
+  mathescape,
+  extendedchars=true,
+}
+
+\author{Ondřej Sedláček}
+\school{Gymnázium Oty Pavla} 
+\series{35-3}
+\problem{3} 
+
+\begin{document} 
+
+V této úloze se nabízí díky tomu, že pracujeme se stromem, napsat algoritmus 
+rekurzivně. 
+
+Nejprve budeme uvažovat, jak pro jednu prodlužovačku zjistíme, jaké zařízení
+vypojit, když do této prodlužovačky jsou připojeny jen zařízení. Na to
+použijeme následující postup: nejprve zjistíme příkony zapojených zařízení
+a jejich součet, a pak odpojujeme zařízení s maximálním příkonem,
+dokud není součet menší než maximální příkon, protože tím jedině
+dosáhneme nejnižšímu počtu kroků.
+
+Tím se dostáváme k případu, kdy do prodlužovačky bude zapojena další
+prodlužovačka. Protože když budeme znát všechna zařízení zapojené přímo
+či nepřímo do zapojené prodlužovačky, můžeme tento případ vyřešit stejně
+jako kdyby všechna zařízení byla zapojena rovnou do zpracovávané
+prodlužovačky. Tohle však můžeme udělat, jakmile všechny dceřiné prodlužovačky
+jsou zpracované, proto budeme zpracovávat od spoda nahoru, aby byl výsledek
+správný.
+
+Implementaci tohoto algoritmu můžete vidět v pseudokódu níže. Pro
+efektivní získávání maxima využívám maximovou haldu. K nejhorší
+časové složitosti pak dojde, když se všechna zařízení odpojí
+v prvních prodlužkách, protože v každé vrstvě dojde ke slévání
+hald, což celkem potrvá $\mathcal{O}(N L)$ pro počet vrstev $L$ a pro počet
+zařízení $N$, a odpojení všech zařízení $\mathcal{O}(N \log N)$.
+
+\begin{lstlisting}
+
+Funkce prodluzovacky(vrchol v, int &pocetOdpojenych, nafPole<int> &kOdpojeni) 
+    -> (maxHalda<(int, int)>, int):
+  // zarizeni budu zpracovavat jako pary dvou cisel, kde prvni
+  // je pozadovany prikon a druhy ID zarizeni, abych mohl vypsat,
+  // jake presne zarizeni vypojit
+  maxHalda<(int, int)> h 
+  int s = 0 // suma
+  (int,int) max // aktualni zarizeni s maximalnim prikonem
+  Pokud v.deti.pocet = 0: // kdyz se jedna o zarizeni (list)
+    h.pridat((v.prikon, v.cislo))
+    s <- s + v.prikon
+    Vratit (h, s)
+  Jinak:
+    Pro u ve v.deti:
+      (maxHalda<(int, int)>, int) vysledek = prodluzovacky(
+        u, pocetOdpojenych, kOdpojeni
+      )
+      h.spojitPole(vysledek[0]) // predpokladam, ze halda je ukladana v poli
+      s <- s + vysledek[1]
+    h.vyrovnat();
+  Dokud v.P < s:
+    max <- h.extrahovatMax()
+    s <- s - max[0]
+    kOdpojeni.pridat(max[1])
+  Vratit (h, s)
+
+int pocetOdpojenych
+nafPole<int> kOdpojeni
+prodluzovacky(koren, pocetOdpojenych, kOdpojeni)
+Vratit (pocetOdpojenych, kOdpojeni)
+
+\end{lstlisting}
+
+\end{document}

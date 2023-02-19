@@ -1,0 +1,124 @@
+\documentclass{fkssolpub}
+
+\usepackage[czech]{babel}
+\usepackage{fontspec}
+\usepackage{fkssugar}
+\usepackage{amsmath}
+
+\usepackage{listings}
+\lstset{
+  basicstyle=\ttfamily,
+  mathescape,
+  extendedchars=true,
+}
+
+\author{Ondřej Sedláček}
+\school{Gymnázium Oty Pavla} 
+\series{35-3}
+\problem{S} 
+
+\begin{document} 
+
+\section{Úkol 1 - Matice přechodu}
+
+Abychom vyjádřili matice $_B[\mathbf{id}]_C$ a $_C[\mathbf{id}]_B$, musíme 
+vyjádřit bazické vektory báze $B$ v bázi $C$ a naopak. To však nebude 
+těžké, protože všechny bazické vektory jsou kvadratickými funkcemi či 
+funkcemi nižších tříd.
+
+Začneme nejprve maticí $_C[\mathbf{id}]_B$. Pro vyjádření této matice musíme zjistit
+funkční hodnoty každého bazického vektoru báze $B$ v bodech -1, 0, 1. Pak
+dostaneme:
+
+\[
+  _C[\mathbf{id}]_B = \begin{pmatrix}
+    1 & -1 & 1 \\
+    1 & 0 & 0 \\
+    1 & 1 & 1
+  \end{pmatrix}
+\]
+
+Matici $_B[\mathbf{id}]_C$ vyplníme naopak koeficienty bazických vektorů
+báze $C$, proto bude vypadat takto:
+
+\[
+  _B[\mathbf{id}]_C = \begin{pmatrix}
+    0 & 1 & 0 \\
+    - \frac{1}{2} & 0 & \frac{1}{2} \\
+    \frac{1}{2} & -1 & \frac{1}{2}
+  \end{pmatrix}
+\]
+
+Když už máme všechny přechody, jsme schopni přechod $_C[g]_C$ převést na
+$_B[g]_B$:
+
+\[
+  _B[g]_B = _B[\mathbf{id}]_C \cdot _C[g]_C \cdot _C[\mathbf{id}]_B
+    = \begin{pmatrix}
+      1 & 0 & 0 \\
+      0 & -1 & 0 \\
+      0 & 0 & 1
+    \end{pmatrix}
+\]
+
+Toto zobrazení by šlo jednoduše odvodit, když si vybavíme vrcholový tvar a
+chování paraboly v závislosti na parametrech. Abychom dosáhli zrcadlení
+paraboly o osu $y$, musí platit následující soustava rovnic:
+
+\[
+  c - \frac{b^2}{4a} = c' - \frac{b'^2}{4a'}
+\]
+\[
+  - \frac{b}{2a} = \frac{b'}{2a'}
+\]
+
+Protože parametr $a$ ovlivňuje tvar paraboly a nikoli jeho polohu, musí zůstat
+stejný, proto dosadíme $a = a'$. Tím dostáváme:
+
+\[
+  c - \frac{b^2}{4a} = c' - \frac{b'^2}{4a}
+\]
+\[
+  - b = b'
+\]
+
+Po dosazení druhé rovnice do první dostáváme $c = c'$. Proto parametry
+zrcadlově otočené kvadratického funkce o osu $y$ jsou $a' = a$, $b' = -b$,
+$c' = c$. Tím jsme dostali úplně stejný výsledek jako výše.
+
+% \section{Úkol 2 - Soustavy pomocí maticových prostorů}
+
+\section{Úkol 3 - Rekurence}
+
+Jelikož máme posloupnost zadanou jen pomocí prvních dvou členů, musíme bazické
+vektory $\mathbf{b}_1$ a $\mathbf{b}_2$ vyjádřit jako vektor prvních dvou
+členů. Pak pro získání koeficientů lineární kombinace musí platit:
+
+\[
+  \begin{pmatrix} 0 \\ 1 \\ \end{pmatrix} 
+    = a \begin{pmatrix} 1 \\ 3 \\ \end{pmatrix} 
+      + b \cdot \begin{pmatrix} 1 \\ -1 \end{pmatrix}
+\]
+
+Odtud získáme jednoduše řešitelnou kvadratickou rovnici:
+
+\[
+  0 = a + b
+\]
+\[
+  1 = 3a - b
+\]
+
+U níž po dosazení $b = -a$ z první rovnice do druhé dostaneme:
+
+\[
+  4a = 1 \ztoho a = \frac{1}{4}
+\]
+
+Díky tomu musí platit:
+
+\[
+ s_n = a \cdot 3^n + b \cdot (-1)^n = \frac{3^n - (-1)^n}{4} 
+\]
+
+\end{document}

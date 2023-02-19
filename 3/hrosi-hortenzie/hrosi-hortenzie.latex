@@ -1,0 +1,44 @@
+\documentclass{fkssolpub}
+
+\usepackage[czech]{babel}
+\usepackage{fontspec}
+\usepackage{fkssugar}
+
+\author{Ondřej Sedláček}
+\school{Gymnázium Oty Pavla} 
+\series{35-3}
+\problem{2} 
+
+\begin{document} 
+
+Ze zadání vyplývá, že náš cíl je najít takovou mističku, s níž spotřebujeme
+co nejméně listů, ale zároveň bude koncentrace v takovém rozmezí, aby byl
+kamarád spokojený. Na tohle můžeme využít intervalového stromu, přesněji
+RMQ, protože vlastně hledáme minimum v určitém rozmezí a zároveň se nám
+předvýpočet v tomto případě vyplatí.
+
+Nejdříve vytvoříme pole, které bude ukládat informace o mističkách.
+Každá mistička bude charakterizována párem čísel, kde první bude koncentrace
+$C_i$ a druhá počet listů $L_i$. To zabere $\mathcal{O}(K \log K)$ času.
+
+Dále musíme inicializovat intervalový strom pro hledání nejmenšího počtu
+listů v určitém intervalu. Ten když implementujeme pomocí
+Sparse Tablu, předvýpočet nám zabere $\mathcal{O}{K \log K}$, každý dotaz
+bude mít pak konstantní složitost a použijeme $\mathcal{O}(K \log K)$ 
+paměti.
+
+Teď potřebujeme ještě znát indexy, které budou určovat interval, kde budeme
+hledat minimální počet listí. Na to použijeme binární vyhledávání. Musíme
+však ještě zařídit případ, kdy to nenajde mističku vytvářející čaj o stejné
+koncentraci. Pak pro nejmenší koncentraci najdeme mističku vytvářející čaj
+o koncentraci co nejmenší, ale zároveň větší než nejmenší koncentrace, a pro
+největší koncentraci opačně. Pak už můžeme se dotázat intervalového
+stromu. Jedna taková operace celkem zabere $\mathcal{O}(\log K)$.
+
+Když shrneme složitost tohoto algoritmu, předvýpočet zabere 
+$\mathcal{O}(K \log K)$ a vyhodnocení všech kamarádů zabere 
+$\mathcal{O}(N \log K)$. Pokud budeme předpokládat, že informace o
+kamarádech si nejprve uložíme do paměti, máme prostorovou složitost
+$\mathcal{O}(K \log K + N)$.
+
+\end{document}

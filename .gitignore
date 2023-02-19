@@ -3,3 +3,5 @@ ksp-klient.py
 *.aux
 *.log
 *.in
+*.zip
+*.txt
