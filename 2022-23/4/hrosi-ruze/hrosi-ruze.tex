@@ -1,0 +1,39 @@
+\documentclass{fkssolpub}
+
+\usepackage[czech]{babel}
+\usepackage{fontspec}
+\usepackage{fkssugar}
+
+\author{Ondřej Sedláček}
+\school{Gymnázium Oty Pavla} 
+\series{35-4}
+\problem{4} 
+
+\begin{document}
+
+Nejdříve popíšu algoritmus na vyřešení tohoto problému pro orientovaný acyklický
+graf (DAG) a později pak zobecním na všechny orientované grafy.
+
+Pro DAG je zásadní následující pozorování. Když se podíváme na DAG, který je
+topologicky seřazen, pak můžeme všimnout, že aby byl celý graf silně souvislý, 
+potřebujeme najít všechny vrcholy bez výstupních hran a všechny vrcholy 
+bez vstupních hran a ty propojit hranami tak, aby každý měl alespoň
+jednu vstupní a alespoň jednu výstupní hranu. Proto pro vyřešení tohoto problému 
+musíme spočítat počet vrcholů bez vstupních a počet vrcholů bez výstupních hran 
+a vrátit jejich maximum. To můžeme udělat tak, že navštívíme všechny
+vrcholy, postupně pro každý vrchol určíme, jestli má alespoň jednu vstupní hranu
+a jestli má alespoň jednu výstupní hranu, a pak z pole zjistíme počet vrcholů bez 
+vstupních či výstupních hran. To má časovou složitost $\mathcal{O}(V + E)$ a
+prostorovou složitost $\mathcal{O}(V)$.
+
+Pro obecný orientovaný graf musíme nejprve převést vstupní graf právě na
+DAG, díky čemuž budeme použít algoritmus výše. Na to musíme najít
+všechny komponenty silné souvislosti a každou z nich nahradit vrcholem.
+Na to můžeme použít Tarjanův algoritmus, jehož časová složitost je
+$\mathcal{O}(V + E)$ a jehož prostorová složitost je $\mathcal{O}(V + E)$. 
+Nahrazování komponent vrcholy trvá stejně dlouho.
+
+Proto celý tento algoritmus běží v čase $\mathcal{O}(V + E)$ a její prostorová složitost
+je $\mathcal{O}(V + E)$.
+  
+\end{document}

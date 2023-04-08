@@ -1,0 +1,33 @@
+\documentclass{fkssolpub}
+
+\usepackage[czech]{babel}
+\usepackage{fontspec}
+\usepackage{fkssugar}
+
+\author{Ondřej Sedláček}
+\school{Gymnázium Oty Pavla} 
+\series{35-4}
+\problem{2} 
+
+\begin{document}
+
+Můj algoritmus je rozdělen na dva různé části. V první části prohazíme tašky
+tak, abychom celý řetězec otočily (reverse). To probíhá tak, že vybereme vždy první a poslední
+neprohozenou tašku v řadě a takhle prohazujeme, dokud se nedostaneme do poloviny
+řetězce. Pro tuto část si musí Kevin musí zapamatovat dvě různá čísla a složitost
+bude lineární.
+
+V druhé části budeme následně otáčet jednotlivá slova. To uděláme tak, že v každém
+kroku najdeme první mezeru v nezpracované části řetězce, nebo dojdeme na konec, 
+čímž ohraničíme první slovo v nezpracovaném řetězci, a to slovo pak otočíme stejně
+jako v první části celý řetězec. Kevinovi pak postačí se vždycky zapamatovat
+jen čtyři čísla -- začátek nezpracovaného řetězce, konec prvního slova v řetězci
+a pak dvě čísla pro ototáčení slova. A protože složitost otáčení a hledání mezer je 
+lineární, složitost druhé části je celá lineární.
+
+Celý tento algoritmus má prostorovou složitost $\mathcal{O}(1)$ a časovou
+složitost $\mathcal{O}(n)$. Zároveň všechna ukládaná čísla nejsou větší než délka
+řetězce, díky čemuž tento algoritmus splňuje podmínku ze zadání.
+
+  
+\end{document}
