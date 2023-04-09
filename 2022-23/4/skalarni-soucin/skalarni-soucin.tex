@@ -1,0 +1,109 @@
+\documentclass{fkssolpub}
+
+\usepackage[czech]{babel}
+\usepackage{fontspec}
+\usepackage{fkssugar}
+\usepackage{amsmath}
+
+\author{Ondřej Sedláček}
+\school{Gymnázium Oty Pavla} 
+\series{35-4}
+\problem{S} 
+
+\begin{document}
+
+\section{Úkol 1 -- Mnohoúhelník}
+
+Díky konvexitě mnohoúhelníku nám k rozhodnutí, zda bod $\mathbf{x}$ leží uvnitř
+mnohoúhelníku, stačí pro všechny hrany zkontrolovat, jestli bod $\mathbf{x}$ leží
+na stejné straně od každé hrany. To můžeme udělat tak, že získáme vektor hrany
+mezi vrcholy $\mathbf{p}_i$ a $\mathbf{p}_{i+1}$ jako 
+$\mathbf{h}_{i,i+1} = \mathbf{p}_{i+1} - \mathbf{p}_i$ a nový bod $\mathbf{x}_{i,i+1} = 
+\mathbf{x} - \mathbf{p}_i$. Teď získáme nový vektor $\mathbf{u}_{i,i+1} = 
+\big( \begin{smallmatrix}
+  0 & -1 \\ 1 & 0 
+\end{smallmatrix} \big) \cdot \mathbf{h}_{i,i+1}$, a vůči němu vypočítáme skalární
+součin $a_{i,i+1} = \langle \mathbf{u}_{i,i+1}, \, \mathbf{x}_{i,i+1} \rangle$. Pak 
+znaménko skalárního součinu $a_{i,i+1}$ nám určí, na jaké straně hrany bod 
+$\mathbf{x}$ leží.
+
+Tento algoritmus pak pro každou sousední dvojici vrcholů $\mathbf{p}_i$ a 
+$\mathbf{p}_{i+1}$ (a dvojici $\mathbf{p}_n$ a $\mathbf{p}_0$) spočítá 
+skalární součin $a_{i, i+1}$ a pokud je ten skalární součin nenulový, zkontroluje,
+jestli všechny ostatní mají stejné znaménko. Kontrolu bude provádět tak, že
+se uloží znaménko skalárního součtu první dvojice, jehož skalární součet je
+nenulový, a pak pro každou další dvojici s nenulovým skalárním součinem se 
+znaménko porovnává s uloženým znaménkem. Protože čas pro kontrolu jedné hrany
+je konstantní, je časová složitost tohoto algoritmu $\mathcal{O}(n)$.
+
+\section{Úkol 2 -- Vzdálenost od roviny}
+
+Protože potřebujeme, aby rovina procházela počátkem, získáme novou rovinu $\rho'$
+a nový bod $\mathbf{x}'$, pro které platí:
+
+\[
+  \rho' = \rho - \mathbf{c} = a_1 \mathbf{u}_1 + a_2 \mathbf{u}_2
+\]
+\[
+  \mathbf{x}' = \mathbf{x} - \mathbf{c} = (5,1,0)^T
+\]
+
+Teď musíme získat ortogonální bázi roviny $\rho'$, kterou označím $\mathbf{v}_1$ a
+$\mathbf{v}_2$. Bazický vektor $\mathbf{v}_1$ dostaneme jednoduše normalizací
+vektoru $\mathbf{u}_1$:
+
+\[
+  \mathbf{v}_1 = \frac{\mathbf{u}_1}{\left\Vert \mathbf{u}_1 \right\Vert}
+\]
+
+Bazický vektor $\mathbf{v}_2$ pak dostaneme, jak je popsán v článku:
+
+\[
+  \mathbf{n}_2 = \mathbf{u}_2 - \langle \mathbf{u}_1, \mathbf{v}_1 \rangle
+    \mathbf{v}_1
+\]
+\[
+  \mathbf{v}_2 = \frac{\mathbf{n}_2}{\left\Vert \mathbf{n}_2 \right\Vert}
+\]
+
+Teď nám zbývá najít projekci:
+
+\[
+  \mathbf{x}'_{\rho} = \langle \mathbf{x}', \mathbf{v}_1 \rangle \mathbf{v}_1 + 
+    \langle \mathbf{x}', \mathbf{v}_2 \rangle \mathbf{v}_2
+\]
+
+Po dosazení všech hodnot určíme vzdálenost
+$\left\Vert \mathbf{x}' - \mathbf{x}'_{\rho} \right\Vert = 3,15$.
+
+\section{Úkol 3 -- Fyzikální měření}
+
+Nejdříve z naměřených hodnot potřebujeme získat lineární systém rovnic.
+Všechny rovnice budou ve tvaru $pt + q = m$, kde potřebujeme zjistit hodnoty
+$p$ a $q$, abychom získali lineární funkci.
+
+Proto matice $\mathbf{A}$, vektor $\mathbf{b}$ a vektor $\mathbf{x}$ budou následující:
+
+\[
+  \mathbf{A} = \begin{pmatrix}
+    0 & 3 & 10 & 14 & 20 \\
+    1 & 1 & 1 & 1 & 1
+  \end{pmatrix}^T
+  \qquad
+  \mathbf{b} = (67, 66, 63, 62, 60)^T \qquad \mathbf{x} = \begin{pmatrix}
+    p \\ q
+  \end{pmatrix}
+\]
+
+Teď musíme akorát dosadit hodnoty do vzorce $\mathbf{x} = 
+(\mathbf{A}^T \mathbf{A})^{-1} \mathbf{A}^T \mathbf{b}$. Pak nám vyjdou
+hodnoty:
+
+\[
+  p \doteq -0,35 \qquad q \doteq 66,93
+\]
+
+Číslo $p$ nám určuje přibližnou změnu hmotnosti za čas, proto rychlost vypařování
+bude $0,35 \, \text{g} \cdot \text{s}^{-1}$.
+  
+\end{document}
