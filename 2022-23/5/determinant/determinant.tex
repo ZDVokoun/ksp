@@ -1,0 +1,85 @@
+\documentclass{fkssolpub}
+
+\usepackage[czech]{babel}
+\usepackage{fontspec}
+\usepackage{fkssugar}
+\usepackage{amsmath}
+
+\author{Ondřej Sedláček}
+\school{Gymnázium Oty Pavla} 
+\series{35-5}
+\problem{S} 
+
+\begin{document}
+
+\section{Úkol 1 -- Obsah mnohoúhelníku}
+
+Zde využijeme faktu, že za pomoci determinantu zjišťujeme orientovaný obsah.
+Díky němu můžeme postupovat tak, že pro každou hranu zjistíme obsah trojúhelníku,
+který bude mít za vrcholy počátek a vrcholy hrany. Když tyto obsahy sečteme,
+orientovanost nám zajistí, že přebývající obsah se vyruší, čímž nám zůstane
+jen obsah mnohoúhelníku (buď jako kladné či záporné číslo).
+
+Můj algoritmus teda funguje tak, že pro každý dva sousední vrcholy spočítáme
+determinant (($p_n$, $p_0$) a ($p_k$, $p_{k+1}$) pro $k \in \mathbb{N}$ 
+a $k < n$) ve stejném směru, ty postupně sečteme a po sečtení vrátíme pro součet $x$
+$\left|\frac{x}{2}\right|$. Složitost tohoto algoritmu bude pak zřejmě
+$\mathcal{O}(n)$.
+
+\section{Úkol 2 -- Polynom}
+
+Nejdříve musíme zapsat soustavu rovnic, které řešíme, maticově:
+
+\[
+  \begin{pmatrix}
+    x_0^2, x_0, 1 \\ x_1^2, x_1, 1 \\ x_2^2, x_2, 1
+  \end{pmatrix} 
+  \begin{pmatrix}
+    a \\ b \\ c
+  \end{pmatrix} = \begin{pmatrix}
+    y_0 \\ y_1 \\ y_2
+  \end{pmatrix}
+\]
+
+Z níž už vidíme, u jaké matice potřebujeme zjistit determinant. Nejdříve zjistíme
+permutační tvar:
+
+\[
+  \text{det} \begin{pmatrix}
+    x_0^2, x_0, 1 \\ x_1^2, x_1, 1 \\ x_2^2, x_2, 1
+  \end{pmatrix} = x_1 x_0^2 - x_2 x_0^2 - x_1^2 x_0 + x_2^2 x_0 - x_1 x_2^2 + x_1^2 x_2
+\]
+
+Protože ten vzorec nevypadá úplně náhodně, mohlo by jít vytknout z tohoto výrazu
+nějaký kratší výraz, třeba $x_0 - x_1$:
+
+\[
+  x_1 x_0^2 - x_2 x_0^2 - x_1^2 x_0 + x_2^2 x_0 - x_1 x_2^2 + x_1^2 x_2
+   = (x_0 - x_1)(x_0 x_1 - x_0 x_2 - x_1 x_2 - x_2^2)
+\]
+
+Teď je vidět, že ho lze ještě rozložit:
+
+\[
+  \text{det} \begin{pmatrix}
+    x_0^2, x_0, 1 \\ x_1^2, x_1, 1 \\ x_2^2, x_2, 1
+  \end{pmatrix} = (x_0 - x_1)(x_0 - x_2)(x_1 - x_2)
+\]
+
+Ze zadání víme, že platí $x_0 < x_1 < x_2$, což jasně implikuje, že determinant
+nemůže být nulový, protože determinant je nulový právě tehdy, když jsou některé
+z x-ových souřadnic stejné. Tím je důkaz u konce.
+
+\section{Úkol 3 -- Součin}
+
+Součin matic značí provedení dvou lineárních zobrazení za sebou. Po
+prvním zobrazení bude obsah $\text{det} \, \mathbf{A}$. A protože
+víme, že determinant násobí původní obsah, po provedení zobrazení
+$\mathbf{A} \mathbf{B}$ bude determinant $\text{det} \, \mathbf{A} 
+\cdot \text{det} \, \mathbf{B}$. Proto musí platit vztah:
+
+\[
+  \text{det}(\mathbf{AB}) = \text{det} \, \mathbf{A} \cdot \text{det} \, \mathbf{B}
+\]
+
+\end{document}
