@@ -1,0 +1,140 @@
+\documentclass{fkssolpub}
+
+\usepackage[czech]{babel}
+\usepackage{fontspec}
+\usepackage{fkssugar}
+\usepackage{amsmath}
+
+\author{Ondřej Sedláček}
+\school{Gymnázium Oty Pavla} 
+\series{35-2}
+\problem{S} 
+
+\begin{document}
+
+\section{Úkol 1 -- Nelineární zobrazení}
+
+Jeden z jednoduše popsatelných případů je přičítání konstantního
+vektoru, aneb "posouvání". U něj neplatí ani jedna z podmínek.
+
+Mějme zobrazení $f(\mathbf{x}) = \mathbf{x} + \mathbf{c}$ s parametrem
+$\mathbf{c} \in \mathbb{R}^2$. Pro každou z podmínek vyzkoušíme, jestli platí
+vždy:
+
+\[
+  f(\mathbf{x} + \mathbf{y}) = f(\mathbf{x}) + f(\mathbf{y})
+\]
+\[
+  \mathbf{x} + \mathbf{y} + \mathbf{c} = \mathbf{x} + \mathbf{c} + \mathbf{y} + \mathbf{c}
+\]
+\[
+  \mathbf{0} = \mathbf{c}
+\]
+
+Tato podmínka tedy nemůže platit vždy. S druhou podmínkou to bude podobné:
+
+\[
+  f(a \mathbf{x}) = a f(\mathbf{x})
+\]
+\[
+  a \mathbf{x} + \mathbf{c} = a \mathbf{x} + a \mathbf{c}
+\]
+\[
+  \mathbf{c} = a \mathbf{c}
+\]
+
+Jeden z příkladů, na kterém je neplatnost vidět, je třeba nulový vektor.
+
+
+\section{Úkol 2 -- Fibonacciho čísla}
+
+Matice $\mathbf{Q}$ lze jednoduše odvodit z podmínky. Protože v horním
+řádku chceme $F_n$ nahradit $F_{n+1}$ a ve spodním chceme součet
+předchozích dvou čísel posloupnosti, výsledná matice $\mathbf{Q}$ musí
+být:
+
+\[
+  \mathbf{Q} = \begin{pmatrix}
+    0 & 1 \\ 1 & 1
+  \end{pmatrix}
+\]
+
+Můj algoritmus se nachází v souboru \verb|fibonacci.jl| 
+a je napsaný v jazyce Julia. Díky tomu, že
+postupně počítám matice pro mocniny dvojky a ty
+podle binárního zápisu skládám, dostáváme časovou složitost
+$\mathcal{O}(\log n)$ a prostorová složitost je $\mathcal{O}(1)$.
+
+\section{Úkol 3 -- Dosažitelnost}
+
+Předchozí postup využívající maticový součin stačí jen mírně upravit,
+a to interpretováním pomocí Booleovské algebry, neboli jen 
+nahrazením součtu operátorem OR a násobení operátorem AND.
+Pak dostaneme matici dosažitelnosti. Tento postup bude asymptoticky
+trvat stejně dlouho jako získání matice počtu sledů.
+
+\section{Úkol 4 -- Obecná inverze}
+
+Inverzní matici $\mathbf{A}^{-1}$ dostaneme po vyřešení dvou lineárních
+soustav rovnic pro každý sloupec jednotkové matice.
+
+Pro první sloupec máme soustavu:
+
+\[
+  \begin{pmatrix}
+    c & -c \\ c & c
+  \end{pmatrix} \mathbf{x}_1 = \begin{pmatrix}
+    1 \\ 0
+  \end{pmatrix}
+\]
+
+Jejíž řešení je:
+
+\[
+  \begin{pmatrix}
+    2c & 0 \\ 0 & c
+  \end{pmatrix} \mathbf{x}_1 = \begin{pmatrix}
+    1 \\ -\frac{1}{2}
+  \end{pmatrix}
+\]
+\[
+  \mathbf{x}_1 = \frac{1}{2c} \begin{pmatrix}
+    1 \\ -1
+  \end{pmatrix}
+\]
+
+A pro druhý sloupec:
+
+\[
+  \begin{pmatrix}
+    c & -c \\ c & c
+  \end{pmatrix} \mathbf{x}_2 = \begin{pmatrix}
+    0 \\ 1
+  \end{pmatrix}
+\]
+
+Jejíž řešení je:
+
+\[
+  \begin{pmatrix}
+    2c & 0 \\ 0 & c
+  \end{pmatrix} \mathbf{x}_2 = \begin{pmatrix}
+    1 \\ \frac{1}{2}
+  \end{pmatrix}
+\]
+\[
+  \mathbf{x}_2 = \frac{1}{2c} \begin{pmatrix}
+    1 \\ 1
+  \end{pmatrix}
+\]
+
+Proto inverzní matice $\mathbf{A}^{-1}$ je:
+
+\[
+  \mathbf{A}^{-1} = \frac{1}{2c} \begin{pmatrix}
+    1 & 1 \\ -1 & 1
+  \end{pmatrix}
+\]
+
+
+\end{document}
