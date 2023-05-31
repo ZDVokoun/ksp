@@ -1,42 +1,55 @@
 def createREF(A, b):
-    h = len(A)
-    w = len(A[0])
-    for c in range(w):
+    size = len(A)
+    for row in range(size):
         pivot = -1
-        for r in range(c,h):
-            if abs(A[r][c]) > 0.001:
+        for col in range(row,size):
+            if abs(A[col][row]) > 0.001:
                 if pivot == -1:
-                    pivot = r
+                    pivot = col
                 elif pivot != -1:
-                    k = A[pivot][c] / A[r][c]
-                    for i in range(w):
-                        A[r][i] *= k
-                        A[r][i] -= A[pivot][i]
-                    b[r] *= k
-                    b[r] -= b[pivot]
+                    k = A[pivot][row] / A[col][row]
+                    for i in range(size):
+                        A[col][i] *= k
+                        A[col][i] -= A[pivot][i]
+                    b[col] *= k
+                    b[col] -= b[pivot]
         if pivot != -1:
-            tmp = A[c].copy()
-            A[c] = A[pivot].copy()
+            tmp = A[row].copy()
+            A[row] = A[pivot].copy()
             A[pivot] = tmp.copy()
+            b[row], b[pivot] = b[pivot], b[row]
     return (A,b)
 
-def transposition(A):
-    h = len(A)
-    w = len(A[0])
-    newA = []
-    for r in range(h):
-        newA.append([])
-        for _ in range(w):
-            newA[r].append(0)
-    for r in range(h):
-        for c in range(w):
-            newA[r][c] = A[c][r]
-    return newA
+def substitution(A, b):
+    size = len(A)
+    res = [0] * size
+    par = []
+    for i in range(size):
+        par.append([0] * size)
+    parameterized = False
+    for i in range(size - 1,-1,-1):
+        row_res = b[i]
+        for j in range(i + 1, size):
+            row_res -= A[i][j] * res[j]
+        if parameterized:
+            pass
+        if A[i][i] == 0:
+            if abs(row_res) < 0.001:
+                parameterized = True
+                par[i][i] = 1
+            else:
+                return None
+        else:
+            res[i] = row_res / A[i][i]
+    if parameterized:
+        return (res, par)
+    return (res, None)
+
 
 def elimination(A,b):
-    nA, b = createREF(A,b)
-    nnA = transposition(nA)
-    return createREF(nnA,b)
+    A, b = createREF(A,b)
+    print(A)
+    return (substitution(A, b))
 
 print(elimination([
     [1,1,-6],
