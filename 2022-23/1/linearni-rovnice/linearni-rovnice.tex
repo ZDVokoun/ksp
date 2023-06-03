@@ -1,0 +1,58 @@
+\documentclass{fkssolpub}
+
+\usepackage[czech]{babel}
+\usepackage{fontspec}
+\usepackage{fkssugar}
+\usepackage{amsmath}
+
+\author{Ondřej Sedláček}
+\school{Gymnázium Oty Pavla} 
+\series{35-1}
+\problem{S} 
+
+\begin{document}
+
+\section{Úkol 1 -- Robot na Marsu}
+
+Abychom zkalibrovali vesmírnou sondu, musíme vyřešit tyto dvě rovnice:
+
+\[
+  \begin{pmatrix}
+    1 \\ 0
+  \end{pmatrix} = f_1 \mathbf{u} + f_2 \mathbf{v} 
+\]
+\[
+  \begin{pmatrix}
+    0 \\ 1
+  \end{pmatrix} = l_1 \mathbf{u} + l_2 \mathbf{v} \text{, }
+\]
+
+kde $\mathbf{u}$ a $\mathbf{v}$ jsou nové vektory pohybu a koeficienty
+$f_1$, $f_2$ pro pohyb dopředu a $l_1$, $l_2$ pro pohyb doleva. Každá z těchto
+rovnic lze zapsat jako soustavu rovnic, ze který pak lze koeficienty vyjádřit.
+Její řešení jsou (pro pohyb dopředu s podmínkou $v_2 \neq 0$ a pro pohyb doleva
+$v_1 \neq 0$):
+
+\[
+  f_1 = \frac{v_2}{u_1 v_2 - u_2 v_1}
+\]
+\[
+  f_2 = -\frac{u_2}{u_1 v_2 - u_2 v_1}
+\]
+\[
+  l_1 = \frac{v_1}{u_2 v_1 - u_1 v_2}
+\]
+\[
+  l_2 = - \frac{u_1}{u_2 v_1 - u_1 v_2}
+\]
+
+\section{Úkol 2 -- Nezávislost a soustavy}
+
+
+
+\section{Úkol 3 -- Algoritmus eliminace}
+
+Implementace Gaussovy eliminace se nachází v souboru \verb|gauss.py|.
+Asymptotická časová složitost této implementace je $\mathcal{O}(n^3)$.
+
+\end{document}
