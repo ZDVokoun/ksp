@@ -1,68 +1,62 @@
-def createREF(A, b):
+def create_REF(A, b):
+    """Convert matrix A and vector b to REF"""
     size = len(A)
-    for row in range(size):
+    for col in range(size):
         pivot = -1
-        for col in range(row,size):
-            if abs(A[col][row]) > 0.001:
+        # Find a row with pivot with the right index
+        for row in range(col,size):
+            if abs(A[row][col]) > 0.001:
                 if pivot == -1:
-                    pivot = col
+                    pivot = row
                 elif pivot != -1:
-                    k = A[pivot][row] / A[col][row]
+                    k = A[pivot][col] / A[row][col]
                     for i in range(size):
-                        A[col][i] *= k
-                        A[col][i] -= A[pivot][i]
-                    b[col] *= k
-                    b[col] -= b[pivot]
-        if pivot != -1:
-            tmp = A[row].copy()
-            A[row] = A[pivot].copy()
+                        A[row][i] *= k
+                        A[row][i] -= A[pivot][i]
+                    b[row] *= k
+                    b[row] -= b[pivot]
+        # Swap lines when needed
+        if pivot != -1 and pivot != col:
+            tmp = A[col].copy()
+            A[col] = A[pivot].copy()
             A[pivot] = tmp.copy()
-            b[row], b[pivot] = b[pivot], b[row]
+            b[col], b[pivot] = b[pivot], b[col]
     return (A,b)
 
 def substitution(A, b):
+    """Backsubstitution for REF matrices without non-basic columns"""
     size = len(A)
     res = [0] * size
-    par = []
-    for _ in range(size):
-        par.append([0] * size)
-    parameterized = False
     for row in range(size - 1,-1,-1):
         row_res = b[row]
         for col in range(row + 1, size):
             row_res -= A[row][col] * res[col]
-        if parameterized:
-            for col in range(row + 1, size):
-                for param in range(col, size):
-                    print(col, param)
-                    par[param][row] -= A[row][col] * par[col][param]
         if A[row][row] == 0:
-            if abs(row_res) < 0.001:
-                parameterized = True
-                par[row][row] = 1
-            else:
-                return None
+            return None
         else:
             res[row] = row_res / A[row][row]
-    if parameterized:
-        return (res, par)
-    return (res, None)
+    return res
 
 
 def elimination(A,b):
-    A, b = createREF(A,b)
-    print(A)
-    return (substitution(A, b))
+    A, b = create_REF(A,b)
+    res = substitution(A, b)
+    return res
 
-print(elimination([
-    [1,1,-6],
-    [1,4,-1],
-    [3,-1,-1]
-    ],
-    [-9,16,-13]))
+def main():
+    d = int(input())
+    A = []
+    b = []
+    for _ in range(d):
+        line = [int(i) for i in input().strip().split()]
+        A.append(line[0:d])
+        b.append(line[d])
+    res = elimination(A, b)
+    if res is None:
+        print("N")
+        return
+    print("J")
+    print(" ".join([str(i) for i in res]))
 
-print(elimination([
-    [0,2,6],
-    [1,-3,2],
-    [-1,4,1]
-    ], [14,5,2]))
+if __name__ == "__main__":
+    main()

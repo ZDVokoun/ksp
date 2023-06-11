@@ -48,7 +48,26 @@ $v_1 \neq 0$):
 
 \section{Úkol 2 -- Nezávislost a soustavy}
 
+Vzorec lineární kombinace lze pomocí roznásobení a sečtení složek převést
+na soustavu rovnic, která se pak vyřeší za pomoci Gaussovy eliminace.
 
+Pokud chceme zjistit, jestli jsou vektory $\mathbf{x}_1, ..., \mathbf{x}_n$
+lineárně nezávislé, musíme najít jiné řešení rovnice:
+
+\[
+  \sum_{i=1}^n a_i \mathbf{x}_i = \mathbf{0},
+\]
+
+kterou převedeme na soustavu rovnic, než když jsou všechny koeficienty
+$a_i = 0$. Pokud najdeme po vyřešení soustavy rovnic pomocí Gaussovy eliminace 
+jiné řešení, pak jsou vektory lineárně závislé.
+
+Pokud chceme některý z vektorů vyjádřit jako lineární kombinaci zbytku, pak si
+musíme vybrat jeden z těchto vektorů a pak rovnici lineární kombinace upravit
+vynásobením složek koeficienty a sečtení složek, čímž získáme znova soustavu
+rovnic řešitelnou Gaussovou eliminací. Pokud jsme si však vybrali takový vektor,
+který není v lineárním obalu zbytku, budeme ho muset vyměnit za jiný a postup
+zopakovat.
 
 \section{Úkol 3 -- Algoritmus eliminace}
 
