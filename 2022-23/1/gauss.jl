@@ -1,3 +1,0 @@
-function elim(matrix, )
-  
-end
